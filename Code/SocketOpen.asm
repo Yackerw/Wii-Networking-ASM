@@ -14,7 +14,7 @@ lis r3, 0x8000
 lwz r3, 0x10 (r3)
 ; ensure valid
 cmpwi 0, r3, 0
-beq RETURN
+beq SOCKET_OPEN_RETURN
 ; this time we need to set up
 ; a buffer
 subi sp, sp, 0x10
@@ -51,6 +51,7 @@ bctrl
 ; stack reset
 addi sp, sp, 0x50
 ; return
+SOCKET_OPEN_RETURN:
 lwz r4, 0 (sp)
 mtlr r4
 addi sp, sp, 0x4

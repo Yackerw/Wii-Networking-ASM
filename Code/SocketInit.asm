@@ -12,7 +12,7 @@ lis r3, 0x8009
 ori r3, r3, 0xB564
 mtctr r3
 ; which ios to open
-bl STRING
+bl SOCKET_INIT_STRING
 mflr r3
 ; ?
 li r4, 0
@@ -24,7 +24,7 @@ lis r4, 0x8000
 stw r3, 0x10 (r4)
 ; ensure sockets valid
 cmpwi 0, r3, 0
-beq RETURN
+beq SOCKET_INIT_RETURN
 ; it IS valid, let's set up
 ; our initialization of it
 li r4, 0x1F
@@ -47,13 +47,14 @@ li r8, 0
 ; execute!
 bctrl
 ; return
-addi sp, sp, 0x40
+SOCKET_INIT_RETURN:
 lwz r4, 0 (sp)
 mtlr r4
+addi sp, sp, 0x40
 addi sp, sp, 0x4
 blr
 
-STRING:
+SOCKET_INIT_STRING:
 blrl
 ; /dev/net/ip/top
 .int 0x2F646576
